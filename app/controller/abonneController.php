@@ -7,13 +7,13 @@ class abonneController {
     public static function index() {
 
         $abonnes = abonne::all();
-        include ('ouvrages/index.php');
+        include ('abonnes/index.php');
 
     }
 
     public static function show($id) {
 
-        $ouvrage = Ouvrage::find($id);
-        include ('ouvrages/show.php');
+        $abonnes = abonne::find($id);
+        include ('abonnes/show.php');
     }
 }

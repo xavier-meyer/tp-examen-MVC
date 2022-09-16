@@ -29,7 +29,7 @@ class FormOuvrage
         return $form;
     }
 
-    public static function buildUpdateFormWithSport(Sport $sport): Form
+    public static function buildUpdateFormWithSport(ouvrage $ouvrage): Form
     {
         $form = new Form();
         $form->debutForm('post', URL_ROOT . 'admin/sport/update/' . $sport->id)

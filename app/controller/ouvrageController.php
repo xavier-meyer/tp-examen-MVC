@@ -13,7 +13,7 @@ class OuvrageController {
 
     public static function show($id) {
 
-        $ouvrage = Ouvrage::find($id);
+        $ouvrages = Ouvrage::find($id);
         include ('ouvrages/show.php');
     }
 }
