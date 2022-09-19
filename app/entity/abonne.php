@@ -2,21 +2,55 @@
 
 namespace app\entity;
 
-class Ouvrage {
+use app\repository\ouvrageRepository;
+use Exception;
 
-    private function bdd() {
-        $bdd = new PDO();
-        $bdd;
+class abonne
+{
+
+    private int $id;
+    private string $nom;
+    private string $prenom;
+    private abonneRepository $abonneRepository;
+
+    public function __construct( string $nom, string $prenom)
+    {
+        $this->nom = $nom;
+        $this->prenom = $prenom;
+        $this->abonneRepository = new abonneRepository();
     }
 
-    public static function all() {
+    public function getId(): int
+    {
+        return $this->id;
 
-      $bdd = $this->bdd();
-      $request = 'SELECT * FROM abonne';
-      $response = $bdd->query($request);
-
-      $data = $response->fetchAll(PDO::FETCH_ASSOC);
-      return $data;
     }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getNom(): string
+    {
+        return $this->nom;
+
+    }
+
+    public function setNom(string $nom): void
+    {
+        $this->nom = $nom;
+    }
+
+    public function getPrenom(): string
+    {
+    return $this->prenom;
+    }
+
+   public function setPrenom(string $prenom): void
+   {
+    $this->prenom = $prenom;
+   }
 
 }
+

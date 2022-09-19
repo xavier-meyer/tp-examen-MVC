@@ -1,0 +1,80 @@
+<?php
+
+namespace App\Service;
+
+use PDO;
+use PDOException;
+
+class Database
+{
+    protected ?PDO $db = null;
+
+    public function __construct()
+    {
+        try {
+            $this->db = new PDO("mysql:host=" . localhost . ";dbname=" . bilbliotheque . "", root, '');
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            die('Error: ' . $e->getMessage());
+        }
+    }
+
+    function customSelect(string $sql)
+    {
+        try {
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            die('Error: ' . $e->getMessage());
+        }
+    }
+
+    function select($table, $cond = null)
+    {
+        $sql = "SELECT * FROM $table";
+        if ($cond) {
+            $sql .= " WHERE " . $cond['key'] . " = :" . $cond['key'];
+        }
+
+        try {
+            $stmt = $this->db->prepare($sql);
+            if ($cond) {
+                $stmt->bindParam(':' . $cond['key'], $cond['value']);
+            }
+            $stmt->execute();
+            return $stmt->fetchAll();  // assuming $result == true
+        } catch (PDOException $e) {
+            die('Error: ' . $e->getMessage());
+        }
+    }
+
+    function numRows($rows): int
+    {
+        return count($rows);
+    }
+
+    function delete($table, $cond = null)
+    {
+        $sql = "DELETE FROM `$table`";
+        if ($cond) {
+            $sql .= " WHERE " . $cond['key'] . " = :" . $cond['key'];
+        }
+
+        try {
+            $stmt = $this->db->prepare($sql);
+            if ($cond) {
+                $stmt->bindParam(':' . $cond['key'], $cond['value']);
+            }
+            $stmt->execute();
+            return $stmt->rowCount(); // 1
+        } catch (PDOException $e) {
+            die('Error: ' . $e->getMessage());
+        }
+    }
+
+    function close() : void
+    {
+        $this->db = null;
+    }
+}

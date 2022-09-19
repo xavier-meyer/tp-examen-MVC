@@ -2,21 +2,51 @@
 
 namespace app\entity;
 
-class Ouvrage {
+use app\repository\ouvrageRepository;
+use Exception;
 
-    private function bdd() {
-        $bdd = new PDO();
-        $bdd;
+class ouvrage
+{
+    private int $id;
+    private string $titre;
+    private string $auteur;
+    private ouvrageRepository $ouvrageRepository;
+
+    public function __construct(string $titre, string $auteur)
+    {
+        $this->titre = $titre;
+        $this->auteur = $auteur;
+        $this->ouvrageRepository = new ouvrageRepository();
     }
 
-    public static function all() {
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
-       $bdd = $this->bdd();
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
 
-      $request = 'SELECT * FROM ouvrages';
-      $response = $bdd->query($request);
+    public function getTitre(): string
+    {
+        return $this->titre;
+    }
 
-      $data = $response->fetchAll(PDO::FETCH_ASSOC);
-       return $data;
-   }
+
+    public function setTitre(string $titre): void
+    {
+        $this->titre = $titre;
+    }
+
+    public function getAuteur(): string
+    {
+        return $this->auteur;
+    }
+
+    public function setAuteur(string $auteur): void
+    {
+        $this->auteur = $auteur;
+    }
 }

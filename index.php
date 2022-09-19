@@ -7,11 +7,9 @@ use app\autoloader;
 use App\Controller\abonneController;
 use App\Controller\ouvrageController;
 use App\Exception\RouterException;
-use App\Repository\SportRepository;
-use App\Repository\UserRepository;
-use App\Security\Auth;
+use App\Repository\ouvrageRepository;
+use App\Repository\IOuvrageRepository;
 use App\Service\form;
-use App\Service\Redirect;
 use App\Service\Router;
 use App\Service\Session;
 
@@ -23,7 +21,6 @@ Autoloader::$folderList =
         "App/Repository/",
         "App/Exception/",
         "App/Service/",
-        "App/Security/",
         "App/Form/",
         "App/Validator/"
     ];

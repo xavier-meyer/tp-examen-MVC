@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\ouvrage;
+use App\Service\Database;
 use PDO;
 use PDOException;
 
@@ -10,15 +11,15 @@ class ouvrageRepository extends Database implements IOuvrageRepository
 {
     public function add(ouvrage $ouvrage)
     {
-        $stmt = $this->db->prepare("INSERT INTO ouvrage (design) VALUES (:design)");
-        $stmt->bindValue(':design', $ouvrage->design);
+        $stmt = $this->db->prepare("INSERT INTO ouvrage (titre) VALUES (:titre)");
+        $stmt->bindValue(':design', $ouvrage->setTitre());
         $stmt->execute();
         $stmt = null;
     }
 
     public function findAll() : array
     {
-        $stmt = $this->db->prepare("SELECT * FROM ouvrage ORDER BY design ASC");
+        $stmt = $this->db->prepare("SELECT * FROM ouvrage ORDER BY titre ASC");
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         $arr = $stmt->fetchAll();
@@ -28,16 +29,16 @@ class ouvrageRepository extends Database implements IOuvrageRepository
         $stmt = null;
         $ouvrages = [];
         foreach ($arr as $ouvrage) {
-            $s = new ouvrage($ouvrage['design']);
+            $s = new ouvrage($ouvrage['titre']);
             $s->setId($ouvrage['id']);
             $ouvrage[] = $s;
         }
         return $ouvrages;
     }
 
-    public function findByDesign(string $design): ouvrage
+    public function findByTitre(string $design): ouvrage
     {
-        $stmt = $this->db->prepare("SELECT * FROM ouvrage WHERE design = :design");
+        $stmt = $this->db->prepare("SELECT * FROM ouvrage");
         $stmt->bindValue(':design', $design);
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -55,7 +56,7 @@ class ouvrageRepository extends Database implements IOuvrageRepository
     {
         $stmt = $this->db->prepare("UPDATE ouvrage SET design = :design WHERE id = :id");
         $stmt->bindValue(':design', $ouvrage->design);
-        $stmt->bindValue(':id', $ouvrage->id);
+        $stmt->bindValue(':id', $ouvrage->get(id));
         $stmt->execute();
         $stmt = null;
     }
@@ -63,8 +64,20 @@ class ouvrageRepository extends Database implements IOuvrageRepository
     public function remove(ouvrage $ouvrage)
     {
         $stmt = $this->db->prepare("DELETE FROM ouvrage WHERE id = :id");
-        $stmt->bindValue(':id', $ouvrage->id);
+        $stmt->bindValue(':id', $ouvrage->get('id'));
         $stmt->execute();
         $stmt = null;
-    }}
+    }
+
+    public function findById($params)
+    {
+        // TODO: Implement findById() method.
+    }
+
+
+    public function findByDesign(string $design): ouvrage
+    {
+        // TODO: Implement findByDesign() method.
+    }
+}
 
